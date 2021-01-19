@@ -1,27 +1,23 @@
-const { Sequelize, Op, Model, DataTypes } = require("sequelize");
-const sequelize = new Sequelize("postgres");
+'use strict'
+module.exports = (sequelize, DataTypes) => {
+  const author = sequelize.define('author', {
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    bio: DataTypes.TEXT,
+    validate: {
+      notNull: {
+        msg: 'Please enter your name'
+      }
+    }
+  }, {})
 
-// const User = sequelize.define("user", {
-//   username: {
-//     type: DataTypes.TEXT,
-//     allowNull: false,
-//     unique: true,
-//     validate: {
-//       notNull: {
-//         msg: "Please enter your name"
-//       },
-//       notEmpty: {
-//         msg: "Can't be empty"
-//       }
-//     }
-//   },
-//   hashedPassword: {
-//     type: DataTypes.STRING(64),
-//     is: /^[0-9a-f]{64}$/i
-//   }
-// });
+  author.associate = function(models) {
+    // associations can be defined here
+    models.author.hasMany(models.article)
+  }
 
-// (async () => {
-//   await sequelize.sync({ force: true });
-//   // Code here
-// })();
+  author.prototype.getFullName = function(){
+    return this.firstName + ' ' + this.lastName
+  }
+  return author
+}
