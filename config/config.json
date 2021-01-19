@@ -2,6 +2,6 @@
   "development": {
     "database": "sequelize_validations",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }
